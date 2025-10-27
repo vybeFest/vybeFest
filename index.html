@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VYBE FEST - Gaming Tournament & After Party</title>
+    <title>VYBE FEST - Gaming Tournament & Children Holiday Party</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- Firebase App and Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    <!-- Flutterwave for payments -->
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <!-- Paystack for payments -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
         * {
             margin: 0;
@@ -401,22 +401,145 @@
             line-height: 1.4;
         }
         
+        .page-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .nav-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to right, #b21f1f, #ffcc00);
+            color: #0c1b33;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Children Party Styles */
+        .children-party {
+            display: none;
+        }
+        
+        .children-header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726, #66bb6a);
+            text-align: center;
+            padding: 20px 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #ffeb3b;
+        }
+        
+        .children-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #ff6b6b, #ffa726, #66bb6a);
+        }
+        
+        .children-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+        
+        .children-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #fff;
+            line-height: 1.3;
+        }
+        
+        .children-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ffeb3b;
+        }
+        
+        .feature-item i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ffeb3b;
+        }
+        
+        .children-form-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid #ffeb3b;
+        }
+        
+        .children-section-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffeb3b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffeb3b;
+        }
+        
+        .children-btn {
+            background: linear-gradient(to right, #ff6b6b, #ffa726);
+            color: #fff;
+        }
+        
+        .children-ticket {
+            border: 2px solid #ffeb3b;
+        }
+        
+        .children-ticket-header {
+            background: linear-gradient(to right, #ff6b6b, #ffa726);
+        }
+        
         /* Mobile Responsive Styles */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             
-            header {
+            header, .children-header {
                 padding: 15px 10px;
                 margin-bottom: 15px;
             }
             
-            .event-title {
+            .event-title, .children-title {
                 font-size: 1.8rem;
             }
             
-            .event-subtitle {
+            .event-subtitle, .children-subtitle {
                 font-size: 1.1rem;
             }
             
@@ -428,12 +551,12 @@
                 font-size: 0.9rem;
             }
             
-            .form-section, .ticket-section {
+            .form-section, .ticket-section, .children-form-section {
                 padding: 15px;
                 min-width: 100%;
             }
             
-            .section-title {
+            .section-title, .children-section-title {
                 font-size: 1.2rem;
             }
             
@@ -454,8 +577,8 @@
                 min-width: 100%;
             }
             
-            .games-grid {
-                grid-template-columns: repeat(3, 1fr);
+            .games-grid, .children-features {
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .payment-methods {
@@ -469,14 +592,24 @@
             .contact-info {
                 font-size: 0.85rem;
             }
+            
+            .page-navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
         
         @media (max-width: 480px) {
-            .event-title {
+            .event-title, .children-title {
                 font-size: 1.5rem;
             }
             
-            .event-subtitle {
+            .event-subtitle, .children-subtitle {
                 font-size: 1rem;
             }
             
@@ -484,15 +617,15 @@
                 font-size: 1rem;
             }
             
-            .section-title {
+            .section-title, .children-section-title {
                 font-size: 1.1rem;
             }
             
-            .games-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .games-grid, .children-features {
+                grid-template-columns: 1fr;
             }
             
-            .btn {
+            .btn, .nav-btn {
                 padding: 12px;
                 font-size: 1rem;
             }
@@ -509,32 +642,21 @@
                 font-size: 0.9rem;
             }
         }
-        
-        @media (max-width: 360px) {
-            .event-title {
-                font-size: 1.3rem;
-            }
-            
-            .games-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .section-title {
-                font-size: 1rem;
-            }
-            
-            .ticket-body {
-                padding: 10px;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Page Navigation -->
+    <div class="page-navigation">
+        <button class="nav-btn" id="gamingBtn">Gaming Tournament</button>
+        <button class="nav-btn" id="childrenBtn">Children Holiday Party</button>
+    </div>
+
+    <!-- Gaming Tournament Page -->
+    <div class="container gaming-party" id="gamingParty">
         <header>
             <h1 class="event-title">VYBE FEST</h1>
             <p class="event-subtitle">Presents GAMERS TOURNAMENT</p>
-            <div class="event-date">5TH DEC. 2025 | 12PM</div>
+            <div class="event-date">6TH DEC. 2025 | 12PM</div>
             <p class="event-venue">1b Boundary Road, Opp. Image Garden, Benin City, Edo State.</p>
             <div class="contact-info">
                 <p><i class="fas fa-phone"></i> 09012364601 | <i class="fas fa-envelope"></i> chillwithvybez@gmail.com</p>
@@ -547,48 +669,48 @@
                 <form id="ticketForm">
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" required placeholder="Enter your full name">
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" required placeholder="Enter your email">
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" required placeholder="Enter your phone number">
+                        <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
                     </div>
                     
                     <div class="form-group">
                         <label for="referrer">Who referred you this ticket link?</label>
-                        <select id="referrer" required>
+                        <select id="referrer" name="referrer" required>
                             <option value="">Select a salesperson</option>
                             <option value="Vybefest">Vybefest</option>
                             <option value="Muna">Muen</option>
-                            
+                
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label for="game">Game Selection</label>
-                        <select id="game" required>
+                        <select id="game" name="game" required>
                             <option value="">Select a game</option>
                             <option value="fifa">FIFA</option>
                             <option value="mortalkombat">Mortal Kombat</option>
                             <option value="codm">Call of Duty Mobile (Team Battle Royale)</option>
-                            <option value="spectator">Spectator (Not Playing)</option>
+                        
                         </select>
                     </div>
                     
                     <div class="form-group" id="teamGroup" style="display: none;">
                         <label for="team">Team Name (Required for Call of Duty)</label>
-                        <input type="text" id="team" placeholder="Enter your team name">
+                        <input type="text" id="team" name="team" placeholder="Enter your team name">
                     </div>
                     
                     <div class="form-group">
                         <label for="ticketType">Ticket Type</label>
-                        <select id="ticketType" required>
+                        <select id="ticketType" name="ticketType" required>
                             <option value="">Select ticket type</option>
                             <option value="regular">Regular (Play Games) - ₦5,000</option>
                             <option value="fullexperience">Full Experience (Games + After Party) - ₦5,500</option>
@@ -600,7 +722,7 @@
                 
                 <div class="payment-section" id="paymentSection">
                     <h3 class="section-title"><i class="fas fa-credit-card"></i> Payment Details</h3>
-                    <p>Complete your payment using Flutterwave</p>
+                    <p>Complete your payment using Paystack</p>
                     
                     <div class="payment-info">
                         <div class="info-item">
@@ -615,7 +737,7 @@
                     
                     <button class="btn" id="payBtn">
                         <span class="loading" id="paymentLoading" style="display: none;"></span>
-                        Pay with Flutterwave
+                        Pay with Paystack
                     </button>
                 </div>
                 
@@ -631,7 +753,7 @@
                     <ol>
                         <li>Fill out the form with your details</li>
                         <li>Select your ticket type and proceed to payment</li>
-                        <li>Complete the secure payment process with Flutterwave</li>
+                        <li>Complete the secure payment process with Paystack</li>
                         <li>Your digital ticket with QR code will be generated</li>
                         <li>Save or print your ticket to bring to the event</li>
                         <li>Your QR code will be scanned at the entrance</li>
@@ -644,7 +766,7 @@
                 <div class="ticket" id="ticket">
                     <div class="ticket-header">
                         <h2>VYBE FEST</h2>
-                        <p>GAMER TOURNAMENT & AFTER PARTY</p>
+                        <p>GAMERS TOURNAMENT & AFTER PARTY</p>
                     </div>
                     <div class="ticket-body">
                         <div class="ticket-info">
@@ -687,7 +809,8 @@
                         </div>
                     </div>
                     <div class="ticket-footer">
-                        <p>This ticket grants admission to VYBE FEST GAMER TOURNAMENT and After Party (if applicable)</p>
+                        <p>This ticket grants admission to VYBE FEST GAMERS TOURNAMENT and After Party (if applicable)</p>
+
                         <p>Please present this ticket at the entrance for scanning</p>
                     </div>
                 </div>
@@ -749,6 +872,198 @@
         </div>
     </div>
 
+    <!-- Children Holiday Party Page -->
+    <div class="container children-party" id="childrenParty">
+        <div class="children-header">
+            <h1 class="children-title">VYBEZ RESTAURANT & LOUNGE</h1>
+            <p class="children-subtitle">CHILDREN HOLIDAY PARTY</p>
+            <div class="event-date">DECEMBER 2025</div>
+            <p class="event-venue">1b Boundary Road, Opp. Image Garden, Benin City, Edo State.</p>
+            <div class="contact-info">
+                <p><i class="fas fa-phone"></i> 09012364601 | <i class="fas fa-envelope"></i> chillwithvybez@gmail.com</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="children-form-section">
+                <h2 class="children-section-title"><i class="fas fa-ticket-alt"></i> Get Your Gate Pass</h2>
+                <form id="childrenTicketForm">
+                    <div class="form-group">
+                        <label for="childrenFullName">Child's Name</label>
+                        <input type="text" id="childrenFullName" name="childrenFullName" required placeholder="Enter child's full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="childrenAge">Child's Age</label>
+                        <input type="number" id="childrenAge" name="childrenAge" required placeholder="Enter child's age" min="1" max="16">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentName">Parent/Guardian Name</label>
+                        <input type="text" id="parentName" name="parentName" required placeholder="Enter parent/guardian name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentEmail">Parent Email</label>
+                        <input type="email" id="parentEmail" name="parentEmail" required placeholder="Enter parent email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentPhone">Parent Phone Number</label>
+                        <input type="tel" id="parentPhone" name="parentPhone" required placeholder="Enter parent phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyContact">Emergency Contact</label>
+                        <input type="tel" id="emergencyContact" name="emergencyContact" required placeholder="Enter emergency contact">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="allergies">Any Allergies or Medical Conditions</label>
+                        <input type="text" id="allergies" name="allergies" placeholder="List any allergies or medical conditions">
+                    </div>
+                    
+                    <button type="submit" class="btn children-btn" id="childrenPurchaseBtn">Get Gate Pass - ₦2,000</button>
+                </form>
+                
+                <div class="payment-section" id="childrenPaymentSection">
+                    <h3 class="children-section-title"><i class="fas fa-credit-card"></i> Payment Details</h3>
+                    <p>Complete your payment using Paystack</p>
+                    
+                    <div class="payment-info">
+                        <div class="info-item">
+                            <div class="info-label">Event</div>
+                            <div class="info-value">Children Holiday Party</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Amount</div>
+                            <div class="info-value">₦2,000</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn children-btn" id="childrenPayBtn">
+                        <span class="loading" id="childrenPaymentLoading" style="display: none;"></span>
+                        Pay with Paystack
+                    </button>
+                </div>
+                
+                <div class="success-message" id="childrenSuccessMessage">
+                    <i class="fas fa-check-circle" style="font-size: 2.5rem; color: #4CAF50; margin-bottom: 15px;"></i>
+                    <h3>Payment Successful!</h3>
+                    <p>Your gate pass has been generated and will be sent to your email.</p>
+                    <p>Thank you for purchasing a gate pass to the Children Holiday Party!</p>
+                </div>
+                
+                <div class="instructions">
+                    <h3>How It Works</h3>
+                    <ol>
+                        <li>Fill out the form with your child's details</li>
+                        <li>Complete the secure payment process with Paystack</li>
+                        <li>Your digital gate pass with QR code will be generated</li>
+                        <li>Save or print your gate pass to bring to the event</li>
+                        <li>Your QR code will be scanned at the entrance</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="ticket-section">
+                <h2 class="children-section-title"><i class="fas fa-qrcode"></i> Your Digital Gate Pass</h2>
+                <div class="ticket children-ticket" id="childrenTicket">
+                    <div class="ticket-header children-ticket-header">
+                        <h2>VYBEZ RESTAURANT & LOUNGE</h2>
+                        <p>CHILDREN HOLIDAY PARTY</p>
+                    </div>
+                    <div class="ticket-body">
+                        <div class="ticket-info">
+                            <div class="info-item">
+                                <div class="info-label">Child's Name</div>
+                                <div class="info-value" id="childrenTicketName">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Child's Age</div>
+                                <div class="info-value" id="childrenTicketAge">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Parent/Guardian</div>
+                                <div class="info-value" id="childrenTicketParent">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Emergency Contact</div>
+                                <div class="info-value" id="childrenTicketEmergency">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Allergies/Conditions</div>
+                                <div class="info-value" id="childrenTicketAllergies">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">December 2025</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Venue</div>
+                                <div class="info-value">1b Boundary Road, Opp. Image Garden, Benin City, Edo State</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Gate Pass ID</div>
+                                <div class="info-value" id="childrenTicketId">-</div>
+                            </div>
+                        </div>
+                        <div class="ticket-qr">
+                            <div id="childrenQrcode"></div>
+                            <p style="margin-top: 10px; font-size: 0.8rem;">Scan at entrance</p>
+                        </div>
+                    </div>
+                    <div class="ticket-footer">
+                        <p>This gate pass grants admission to VYBEZ Children Holiday Party</p>
+                        <p>Please present this pass at the entrance for scanning</p>
+                    </div>
+                </div>
+                
+                <div class="children-features">
+                    <div class="feature-item">
+                        <i class="fas fa-paw"></i>
+                        <h3>Live Animal</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-swimming-pool"></i>
+                        <h3>Swimming Bath</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chess-rook"></i>
+                        <h3>Bouncing Castle</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-crown"></i>
+                        <h3>Red Carpet</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-gamepad"></i>
+                        <h3>Gaming Tournament</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-futbol"></i>
+                        <h3>Football Court</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-gift"></i>
+                        <h3>Prize Winning</h3>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Food & Drinks</h3>
+                    </div>
+                </div>
+                
+                <div class="contact-info" style="margin-top: 30px;">
+                    <p><i class="fas fa-phone"></i> Get your Gate Pass CALL: 09012364601</p>
+                    <p><i class="fas fa-money-bill-wave"></i> GATE PASS: ₦2,000</p>
+                    <p><i class="fas fa-handshake"></i> For Sponsorship & Partnership Please Call: 09012364601</p>
+                    <p><i class="fas fa-hashtag"></i> chillwithVybez</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Firebase configuration (replace with your actual Firebase config)
         const firebaseConfig = {
@@ -765,12 +1080,18 @@
         // const db = firebase.firestore();
 
         // =============================================
-        // FLUTTERWAVE CONFIGURATION
+        // PAYSTACK CONFIGURATION
         // =============================================
-        // Replace with your Flutterwave Public Key
-        const FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-e1673176dd7c6f9aecb2a28c42370557-X";
+        // Replace with your Paystack Public Key
+        const PAYSTACK_PUBLIC_KEY = "pk_live_ce2779a98daee2fd060c5255da2205f49987bd69";
         
         // DOM Elements
+        const gamingBtn = document.getElementById('gamingBtn');
+        const childrenBtn = document.getElementById('childrenBtn');
+        const gamingParty = document.getElementById('gamingParty');
+        const childrenParty = document.getElementById('childrenParty');
+        
+        // Gaming Tournament Elements
         const ticketForm = document.getElementById('ticketForm');
         const paymentSection = document.getElementById('paymentSection');
         const purchaseBtn = document.getElementById('purchaseBtn');
@@ -783,6 +1104,40 @@
         const ticketTypeSelect = document.getElementById('ticketType');
         const paymentTicketType = document.getElementById('paymentTicketType');
         const paymentAmount = document.getElementById('paymentAmount');
+
+        // Children Party Elements
+        const childrenTicketForm = document.getElementById('childrenTicketForm');
+        const childrenPaymentSection = document.getElementById('childrenPaymentSection');
+        const childrenPurchaseBtn = document.getElementById('childrenPurchaseBtn');
+        const childrenPayBtn = document.getElementById('childrenPayBtn');
+        const childrenPaymentLoading = document.getElementById('childrenPaymentLoading');
+        const childrenSuccessMessage = document.getElementById('childrenSuccessMessage');
+        const childrenTicket = document.getElementById('childrenTicket');
+
+        // Page Navigation
+        gamingBtn.addEventListener('click', function() {
+            gamingParty.style.display = 'block';
+            childrenParty.style.display = 'none';
+            gamingBtn.style.opacity = '1';
+            childrenBtn.style.opacity = '0.7';
+        });
+
+        childrenBtn.addEventListener('click', function() {
+            gamingParty.style.display = 'none';
+            childrenParty.style.display = 'block';
+            gamingBtn.style.opacity = '0.7';
+            childrenBtn.style.opacity = '1';
+        });
+
+        // Show gaming page by default
+        gamingParty.style.display = 'block';
+        childrenParty.style.display = 'none';
+        gamingBtn.style.opacity = '1';
+        childrenBtn.style.opacity = '0.7';
+
+        // =============================================
+        // GAMING TOURNAMENT FUNCTIONALITY
+        // =============================================
 
         // Show/hide team field based on game selection
         gameSelect.addEventListener('change', function() {
@@ -837,93 +1192,177 @@
                 game,
                 team,
                 ticketType,
-                amount
+                amount,
+                eventType: 'gaming'
             };
         });
 
         // =============================================
-        // FLUTTERWAVE PAYMENT INTEGRATION
+        // CHILDREN PARTY FUNCTIONALITY
         // =============================================
+
+        // Form submission for children party
+        childrenTicketForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const childrenFullName = document.getElementById('childrenFullName').value;
+            const childrenAge = document.getElementById('childrenAge').value;
+            const parentName = document.getElementById('parentName').value;
+            const parentEmail = document.getElementById('parentEmail').value;
+            const parentPhone = document.getElementById('parentPhone').value;
+            const emergencyContact = document.getElementById('emergencyContact').value;
+            const allergies = document.getElementById('allergies').value || 'None';
+            
+            // Show payment section
+            childrenPaymentSection.style.display = 'block';
+            childrenPurchaseBtn.disabled = true;
+            childrenPurchaseBtn.textContent = 'Complete Payment Below';
+            
+            // Scroll to payment section
+            childrenPaymentSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Store form data for payment
+            window.childrenFormData = {
+                childrenFullName,
+                childrenAge,
+                parentName,
+                parentEmail,
+                parentPhone,
+                emergencyContact,
+                allergies,
+                amount: 2000,
+                eventType: 'children'
+            };
+        });
+
+        // =============================================
+        // PAYSTACK PAYMENT INTEGRATION
+        // =============================================
+
+        // Gaming Tournament Payment
         payBtn.addEventListener('click', function() {
             paymentLoading.style.display = 'inline-block';
             payBtn.disabled = true;
             
             const formData = window.formData;
-            const ticketId = 'VYBE_' + Math.floor(100000 + Math.random() * 900000);
+            const ticketId = 'VYBE_GAME_' + Math.floor(100000 + Math.random() * 900000);
             
-            // Generate unique transaction reference
-            const txRef = "VYBE_" + ticketId + "_" + Date.now();
-            
-            // Make payment with Flutterwave
-            FlutterwaveCheckout({
-                public_key: FLUTTERWAVE_PUBLIC_KEY,
-                tx_ref: txRef,
-                amount: formData.amount,
-                currency: "NGN",
-                payment_options: "card, banktransfer, ussd",
-                customer: {
-                    email: formData.email,
-                    phone_number: formData.phone,
-                    name: formData.fullName,
+            // Make payment with Paystack
+            const handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: formData.email,
+                amount: formData.amount * 100, // Convert to kobo
+                currency: 'NGN',
+                ref: 'VYBE_GAME_' + ticketId + '_' + Date.now(),
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Full Name",
+                            variable_name: "full_name",
+                            value: formData.fullName
+                        },
+                        {
+                            display_name: "Phone",
+                            variable_name: "phone",
+                            value: formData.phone
+                        },
+                        {
+                            display_name: "Event",
+                            variable_name: "event",
+                            value: "VYBE FEST Gaming Tournament"
+                        }
+                    ]
                 },
-                customizations: {
-                    title: "VYBE FEST Ticket Purchase",
-                    description:` Ticket for ${formData.fullName} - ${document.getElementById('ticketType').options[document.getElementById('ticketType').selectedIndex].text}`,
-                    logo: "https://your-logo-url.com/logo.png", // Add your logo URL
+                callback: function(response) {
+                    // Payment was successful
+                    console.log("Payment successful:", response);
+                    
+                    // Generate ticket and show success message
+                    generateTicket(formData, ticketId);
+                    
+                    // Show success message
+                    paymentLoading.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    paymentSection.style.display = 'none';
+                    
+                    // Scroll to ticket
+                    ticket.scrollIntoView({ behavior: 'smooth' });
                 },
-                callback: function (response) {
-                    // Handle payment response
-                    if (response.status === 'successful') {
-                        // Payment was successful
-                        console.log("Payment successful:", response);
-                        
-                        // Generate ticket and show success message
-                        generateTicket(formData, ticketId);
-                        
-                        // Show success message
-                        paymentLoading.style.display = 'none';
-                        successMessage.style.display = 'block';
-                        paymentSection.style.display = 'none';
-                        
-                        // Scroll to ticket
-                        ticket.scrollIntoView({ behavior: 'smooth' });
-                        
-                        // In a real implementation, you would save to Firebase here
-                        /*
-                        db.collection('tickets').add({
-                            ticketId: ticketId,
-                            fullName: formData.fullName,
-                            email: formData.email,
-                            phone: formData.phone,
-                            referrer: formData.referrer,
-                            game: formData.game,
-                            team: formData.team,
-                            ticketType: formData.ticketType,
-                            amount: formData.amount,
-                            transactionId: response.transaction_id,
-                            purchaseDate: new Date(),
-                            status: 'confirmed'
-                        }).then(() => {
-                            console.log('Ticket saved to Firebase');
-                        }).catch(error => {
-                            console.error('Error saving ticket: ', error);
-                        });
-                        */
-                    } else {
-                        // Payment failed or was cancelled
-                        console.log("Payment not successful:", response);
-                        alert("Payment was not completed. Please try again.");
-                        paymentLoading.style.display = 'none';
-                        payBtn.disabled = false;
-                    }
-                },
-                onclose: function() {
-                    // When the modal is closed without completing payment
+                onClose: function() {
+                    // Payment modal was closed
                     console.log("Payment modal closed");
                     paymentLoading.style.display = 'none';
                     payBtn.disabled = false;
                 }
             });
+            
+            handler.openIframe();
+        });
+
+        // Children Party Payment
+        childrenPayBtn.addEventListener('click', function() {
+            childrenPaymentLoading.style.display = 'inline-block';
+            childrenPayBtn.disabled = true;
+            
+            const formData = window.childrenFormData;
+            const ticketId = 'VYBE_KIDS_' + Math.floor(100000 + Math.random() * 900000);
+            
+            // Make payment with Paystack
+            const handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: formData.parentEmail,
+                amount: formData.amount * 100, // Convert to kobo
+                currency: 'NGN',
+                ref: 'VYBE_KIDS_' + ticketId + '_' + Date.now(),
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Child Name",
+                            variable_name: "child_name",
+                            value: formData.childrenFullName
+                        },
+                        {
+                            display_name: "Parent Name",
+                            variable_name: "parent_name",
+                            value: formData.parentName
+                        },
+                        {
+                            display_name: "Phone",
+                            variable_name: "phone",
+                            value: formData.parentPhone
+                        },
+                        {
+                            display_name: "Event",
+                            variable_name: "event",
+                            value: "VYBEZ Children Holiday Party"
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    // Payment was successful
+                    console.log("Payment successful:", response);
+                    
+                    // Generate ticket and show success message
+                    generateChildrenTicket(formData, ticketId);
+                    
+                    // Show success message
+                    childrenPaymentLoading.style.display = 'none';
+                    childrenSuccessMessage.style.display = 'block';
+                    childrenPaymentSection.style.display = 'none';
+                    
+                    // Scroll to ticket
+                    childrenTicket.scrollIntoView({ behavior: 'smooth' });
+                },
+                onClose: function() {
+                    // Payment modal was closed
+                    console.log("Payment modal closed");
+                    childrenPaymentLoading.style.display = 'none';
+                    childrenPayBtn.disabled = false;
+                }
+            });
+            
+            handler.openIframe();
         });
 
         // Helper function to calculate amount based on ticket type
@@ -944,7 +1383,7 @@
             }
         }
 
-        // Generate ticket with QR code
+        // Generate gaming ticket with QR code
         function generateTicket(formData, ticketId) {
             // Update ticket information
             document.getElementById('ticketName').textContent = formData.fullName;
@@ -981,6 +1420,46 @@
             
             // Show the ticket
             ticket.style.display = 'block';
+        }
+
+        // Generate children party ticket with QR code
+        function generateChildrenTicket(formData, ticketId) {
+            // Update ticket information
+            document.getElementById('childrenTicketName').textContent = formData.childrenFullName;
+            document.getElementById('childrenTicketAge').textContent = formData.childrenAge;
+            document.getElementById('childrenTicketParent').textContent = formData.parentName;
+            document.getElementById('childrenTicketEmergency').textContent = formData.emergencyContact;
+            document.getElementById('childrenTicketAllergies').textContent = formData.allergies;
+            document.getElementById('childrenTicketId').textContent = ticketId;
+            
+            // Generate QR code
+            const qrContainer = document.getElementById('childrenQrcode');
+            qrContainer.innerHTML = '';
+            
+            // Create QR code with ticket data
+            const qrData = JSON.stringify({
+                id: ticketId,
+                childName: formData.childrenFullName,
+                childAge: formData.childrenAge,
+                parentName: formData.parentName,
+                parentEmail: formData.parentEmail,
+                parentPhone: formData.parentPhone,
+                emergencyContact: formData.emergencyContact,
+                allergies: formData.allergies,
+                event: "VYBEZ CHILDREN HOLIDAY PARTY"
+            });
+            
+            new QRCode(qrContainer, {
+                text: qrData,
+                width: 160,
+                height: 160,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Show the ticket
+            childrenTicket.style.display = 'block';
         }
     </script>
 </body>
