@@ -691,8 +691,22 @@
                             <option value="Effosa">Effosa</option>
                             <option value="Igwe">Igwe Okocha</option>
                             <option value="Ochuko">Ochuko</option> </select></div>
-                
-                        
+                      
+                          <div class="form-group">
+                        <label for="game">Game Selection</label>
+                        <select id="game" name="game" required>
+                            <option value="">Select a game</option>
+                            <option value="fifa">FIFA</option>
+                            <option value="mortalkombat">Mortal Kombat</option>
+                            <option value="codm">Call of Duty Mobile (Team Battle Royale)</option>
+                            <option value="spectator">Spectator (Not Playing)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="teamGroup" style="display: none;">
+                        <label for="team">Team Name (Required for Call of Duty)</label>
+                        <input type="text" id="team" name="team" placeholder="Enter your team name">
+                    </div>      
                     
                     <div class="form-group">
                         <label for="ticketType">Ticket Type</label>
@@ -1450,6 +1464,7 @@
     </script>
 </body>
 </html>
+
 
 
 
